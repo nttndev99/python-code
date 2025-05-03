@@ -1,3 +1,4 @@
+import smtplib
 from flask import Flask, render_template, request
 import requests
 
@@ -11,6 +12,9 @@ post_objects = []
 for post in posts:
     post_obj = Post(post["id"], post["title"], post["subtitle"], post["body"])
     post_objects.append(post_obj)
+
+MY_EMAIL = "nttndev99@gmail.com"
+MY_PASSWORD = "iohqiqvqrgrrtyug"
 
 app = Flask(__name__)
 
@@ -31,10 +35,19 @@ def contact():
         phone = request.form["phone"]
         message = request.form["message"]
         print(name, email, phone, message)
+        # send email
+        data = request.form
+        send_email(data["name"], data["email"], data["phone"], data["message"])
         return render_template("contact.html", msg_sent=True)
     else:   
         return render_template("contact.html", msg_sent=False)
 
+def send_email(name, email, phone, message):
+    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(MY_EMAIL, MY_PASSWORD)
+        connection.sendmail(MY_EMAIL, MY_EMAIL, email_message)
 
 
 @app.route("/post/<int:index>")
