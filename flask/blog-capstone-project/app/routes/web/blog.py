@@ -8,14 +8,14 @@ blog_bp = Blueprint('blog', __name__)
 @blog_bp.route('/')
 def index():
     all_posts = get_all_posts()
-    return render_template("index.html", all_posts=all_posts)
+    return render_template("blog_templates/index.html", all_posts=all_posts)
 
 @blog_bp.route("/post/<int:index>")
 def show_post(index):
     blog_post = get_post_by_id(index)
     if blog_post is None:
         return render_template("404.html"), 404
-    return render_template("post.html", post=blog_post)
+    return render_template("blog_templates/post.html", post=blog_post)
 
 
 @blog_bp.route("/new-post", methods=["GET", "POST"])
@@ -29,7 +29,7 @@ def add_new_post():
         return redirect(url_for('blog.index'))
     else:
         print(form.errors)
-    return render_template('make-post.html', form=form)
+    return render_template('blog_templates/make-post.html', form=form)
 
 @blog_bp.route('/update-post/<int:post_id>', methods=['GET', 'POST'])
 def update(post_id):
@@ -44,7 +44,7 @@ def update(post_id):
     if form.validate_on_submit():
         update_post(post_id, form.title.data, form.subtitle.data, form.body.data)
         return redirect(url_for('blog.index'))
-    return render_template('make-post.html', form=form, is_update=True)
+    return render_template('blog_templates/make-post.html', form=form, is_update=True)
 
 @blog_bp.route('/delete/<int:post_id>')
 def delete(post_id):
@@ -53,7 +53,7 @@ def delete(post_id):
 
 @blog_bp.route('/about')
 def about():
-    return render_template("about.html")
+    return render_template("blog_templates/about.html")
 
 @blog_bp.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -66,6 +66,6 @@ def contact():
             # send email
             data = request.form
             send_email(data["name"], data["email"], data["phone"], data["message"])
-            return render_template("contact.html", msg_sent=True)
+            return render_template("blog_templates/contact.html", msg_sent=True)
     else:   
-        return render_template("contact.html", msg_sent=False)
+        return render_template("blog_templates/contact.html", msg_sent=False)
