@@ -2,7 +2,7 @@
 # Using Cursor to create a table and insert data into it
 import sqlite3
 
-db = sqlite3.connect("./app/instance/post.db")
+db = sqlite3.connect("./app/instance/blog.db")
 
 cursor = db.cursor()
 

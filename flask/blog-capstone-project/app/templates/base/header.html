@@ -8,9 +8,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('blog.index') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('blog.about') }}">About</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('blog.contact') }}">Contact</a></li>
+                {% if not current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" 
+                    href="{{ url_for('user.register_user') }}">REGISTER</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" 
+                    href="{{ url_for('user.login') }}">LOGIN</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated %}   
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4 text-info"> 
+                        Welcome, {{current_user.name}}! 
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('user.logout') }}">LOGOUT</a>
+                </li>                 
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" 
+                    href="{{ url_for('blog.index') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" 
+                    href="{{ url_for('blog.about') }}">About</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" 
+                    href="{{ url_for('blog.contact') }}">Contact</a></li>
             </ul>
         </div>
     </div>
