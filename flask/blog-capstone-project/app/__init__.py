@@ -28,14 +28,12 @@ def create_app():
     
     with app.app_context():
         try:
-            from app.models import post, user
+            from app.models import post, user, comment
             db.create_all()  
             print("Database and tables created successfully!")
         except Exception as e:
             print(f"Error: {e}")
     
-    
-        
     return app
 
 
