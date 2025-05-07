@@ -9,6 +9,8 @@ from functools import wraps
 from flask import abort
 blog_bp = Blueprint('blog', __name__)
 
+
+
 #Create admin-only decorator
 def admin_only(f):
     @wraps(f)

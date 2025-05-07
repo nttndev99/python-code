@@ -15,6 +15,7 @@ def create_app():
     
     CKEditor(app)
     Bootstrap(app)
+    
     os.makedirs(os.path.join(Config.basedir, 'instance'), exist_ok=True)
     
     register_routes(app)
@@ -33,6 +34,9 @@ def create_app():
             print("Database and tables created successfully!")
         except Exception as e:
             print(f"Error: {e}")
+            
+
+    
     
     return app
 
