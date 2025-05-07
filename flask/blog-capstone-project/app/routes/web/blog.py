@@ -1,10 +1,24 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_login import current_user
 from app.forms.forms import CreatePostForm
 from app.services.blog_service import *
 from app.services.smtplib_service import send_email
+from functools import wraps
+from flask import abort
 blog_bp = Blueprint('blog', __name__)
 
-
+#Create admin-only decorator
+def admin_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        #If id is not 1 then return abort with 403 error
+        if current_user.id != 1:
+            return abort(403)
+        #Otherwise continue with the route function
+        return f(*args, **kwargs)        
+    return decorated_function
+  
+  
 @blog_bp.route('/')
 def index():
     all_posts = get_all_posts()
@@ -19,6 +33,7 @@ def show_post(index):
 
 
 @blog_bp.route("/new-post", methods=["GET", "POST"])
+@admin_only
 def add_new_post():
     form = CreatePostForm()
     if form.validate_on_submit():
@@ -47,6 +62,7 @@ def update(post_id):
     return render_template('blog_templates/make-post.html', form=form, is_update=True)
 
 @blog_bp.route('/delete/<int:post_id>')
+@admin_only
 def delete(post_id):
     delete_post(post_id)
     return redirect(url_for('blog.index'))

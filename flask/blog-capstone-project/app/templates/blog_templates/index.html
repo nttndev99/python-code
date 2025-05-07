@@ -36,19 +36,24 @@
             <p class="post-meta"> 
                 Posted by <a href="#">{{post.author}}</a>
                 on {{post.date}}
-                <a href="{{url_for('blog.delete', post_id=post.id) }}">✘</a>
-              </p>
+                {% if current_user.id == 1: %}
+                    <a href="{{url_for('blog.delete', post_id=post.id) }}">✘</a>
+                {% endif %}
+            </p>
         </div>
         <hr>
         {% endfor %}
 
         <!-- New Post -->
+        {% if current_user.id == 1: %}
         <div class="d-flex justify-content-end mb-4">
             <a
                 class="btn btn-primary float-right"
                 href="{{url_for('blog.add_new_post')}}">Create New Post
             </a>
         </div>
+        {% endif %}
+
         <!-- Pager -->
         <div class="clearfix">
         <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
