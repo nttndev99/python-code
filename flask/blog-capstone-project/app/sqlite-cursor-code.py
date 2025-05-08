@@ -35,8 +35,8 @@ data = [
     1
     )
 ]
-#cursor.executemany("INSERT INTO users(id, name, email, password) VALUES(?, ?, ?, ?)", user)
-cursor.executemany("INSERT INTO posts(id, title, subtitle, date, img_url, body, author_id) VALUES(?, ?, ?, ?, ?, ?, ?)", data)
+cursor.executemany("INSERT INTO users(id, name, email, password) VALUES(?, ?, ?, ?)", user)
+#cursor.executemany("INSERT INTO posts(id, title, subtitle, date, img_url, body, author_id) VALUES(?, ?, ?, ?, ?, ?, ?)", data)
 db.commit()
 
 ##----- CREATE TABLE-----
