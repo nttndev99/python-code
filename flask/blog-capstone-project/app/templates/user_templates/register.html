@@ -2,51 +2,42 @@
 {% block content %}
 
 <!-- Page Header -->
-<header
-  class="masthead"
-  style="background-image: url('../static/assets/img/register-bg.jpg')"
->
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <div class="page-heading">
-          <h1>Register</h1>
-          <span class="subheading">Start Contributing to the Blog!</span>
-        </div>
-      </div>
-    </div>
+<div class="container_register">
+  <div class="login-register-box">
+    <h1>Register</h1>
+    <p> Welcome to the LEARN BLOGS!</p>
   </div>
-</header>
+</div>
 
 <main class="mb-4">
-  <div class="container">
+  <div class="container_form">
     <form method="POST">
         {{ form.hidden_tag() }}  <!-- CSRF token -->
 
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="col-lg-12 col-md-10 mx-auto">
                 {{ form.name.label }} 
                 {{ form.name(class="form-control", size=50) }}
             </div>  
         </div>    
 
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="col-lg-12 col-md-10 mx-auto">
                 {{ form.email.label }} 
                 {{ form.email(class="form-control", size=50) }}
             </div>  
         </div>
 
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="col-lg-12 col-md-10 mx-auto">
                 {{ form.password.label }}
                 {{ form.password(class="form-control", size=50) }}
             </div>
         </div>
-
+        <br>
         <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-              {{ form.submit(class="btn btn-primary") }}
+          <div class="col-lg-12 col-md-10 mx-auto">
+              {{ form.submit(class="btn btn-primary", id="submit-button") }}
           </div>
         </div>
 

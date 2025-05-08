@@ -1,74 +1,62 @@
 {% extends 'base/base.html' %}
 {% block content %}
-<!-- Page Header-->
-<header class="masthead" style="background-image: url('{{ post.image_url }}')">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="post-heading">
-                    <h1>{{ post.title }}</h1>
-                    <h2 class="subheading">{{ post.subtitle }}</h2>
-                    <span class="meta">Posted by
-                        <a href="#">{{ post.author.name }}</a>
-                        on {{ post.date }}
-                    </span>
-                </div>
+
+<section>
+    <span class="image main">
+        <img src="{{ url_for('static', filename='assets/images/pic11.jpg') }}" alt="Logo">
+    </span>
+    <header class="main">
+        <h1>{{ post.title }}</h1>
+        <span class="meta"> Posted by <a href="#">{{ post.author.name }}</a> on {{ post.date }}
+        </span>
+    </header>
+    <p>{{ post.subtitle }} </p>
+    <hr class="major" />
+    <p>{{ post.body | safe }}
+    {% if current_user.id == 1 %}
+    <div class="d-flex justify-content-end mb-4">
+        <a class="btn btn-primary float-right"
+            href="{{url_for('blog.update', post_id=post.id)}}">Edit Post</a>
+    </div>
+    {% endif %}
+    <hr class="major" />
+</section>
+
+
+<div class="comment">
+    <ul class="commentList">
+        <!-- Show all comments -->
+        {% for comment in post.comments: %}
+        <li>
+            <div class="commentText">
+                {{comment.text|safe}}
+                <span class="sub-text">{{comment.comment_author.name}}</span>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<section>
+    <!-- Comments Area -->
+    <!-- Load the CKEditor -->
+    {{ ckeditor.load() }}
+    <!-- Configure it with the name of the form field from CommentForm -->
+    {{ ckeditor.config(name='comment_text') }}
+    <!-- Create the wtf quick form from CommentForm -->
+    <form method="POST">
+        {{ form.hidden_tag() }}  
+        <div class="row">
+            {{ form.comment_text.label }}
+            <div class="md-auto mx-auto">
+            {{ form.comment_text(class="form-control") }}
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
             </div>
         </div>
-    </div>
-</header>
+        <br>
+    </form>
+<section>
 
-<!-- Post Content-->
-<article class="mb-4">
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <p>{{ post.body | safe }}
-                       <!--Only show Edit Post button if user id is 1 (admin user) -->
-                 {% if current_user.id == 1 %}
-                <div class="d-flex justify-content-end mb-4">
-                    <a class="btn btn-primary float-right"
-                        href="{{url_for('blog.update', post_id=post.id)}}">Edit Post</a>
-                </div>
-                {% endif %}
-
-
-                <!-- Comments Area -->
-                <!-- Load the CKEditor -->
-                {{ ckeditor.load() }}
-                <!-- Configure it with the name of the form field from CommentForm -->
-                {{ ckeditor.config(name='comment_text') }}
-                <!-- Create the wtf quick form from CommentForm -->
-                <form method="POST">
-                        {{ form.hidden_tag() }}  
-                    <div class="row">
-                            {{ form.comment_text.label }}
-                            {{ form.comment_text(class="form-control") }}
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 mx-auto">
-                            {{ form.submit(class="btn btn-primary") }}
-                        </div>
-                    </div>
-                </form>
-                <div class="comment">
-                    <ul class="commentList">
-                        <!-- Show all comments -->
-                        {% for comment in post.comments: %}
-                        <li>
-                            <div class="commentText">
-                                {{comment.text|safe}}
-                                <span class="sub-text">{{comment.comment_author.name}}</span>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</article>
 
 {% endblock %}
